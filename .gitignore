@@ -1,0 +1,106 @@
+# ===============================
+# OS Files
+# ===============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===============================
+# IDE
+# ===============================
+.vscode/
+.idea/
+
+# ===============================
+# Logs
+# ===============================
+*.log
+logs/
+
+# ===============================
+# Environment Variables
+# ===============================
+.env
+.env.*
+!.env.example
+
+# ===============================
+# Python
+# ===============================
+backend/venv/
+backend/.venv/
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ===============================
+# FastAPI
+# ===============================
+backend/uploads/
+backend/outputs/
+backend/temp/
+
+# SQLite (if ever used)
+*.db
+*.sqlite3
+
+# ===============================
+# Playwright
+# ===============================
+backend/playwright-report/
+backend/test-results/
+
+# ===============================
+# PDF / CSV Generated Files
+# ===============================
+backend/uploads/csv/*
+!backend/uploads/csv/.gitkeep
+
+backend/uploads/pdf/*
+!backend/uploads/pdf/.gitkeep
+
+backend/outputs/cleaned/*
+!backend/outputs/cleaned/.gitkeep
+
+backend/outputs/final/*
+!backend/outputs/final/.gitkeep
+
+backend/temp/*
+!backend/temp/.gitkeep
+
+# ===============================
+# Node / React
+# ===============================
+frontend/node_modules/
+
+frontend/dist/
+frontend/build/
+
+# npm / pnpm / yarn
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# Cache
+frontend/.vite/
+frontend/.cache/
+
+# ===============================
+# Coverage
+# ===============================
+coverage/
+
+# ===============================
+# Misc
+# ===============================
+*.zip
+*.tar
+*.gz
