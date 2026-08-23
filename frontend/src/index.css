@@ -110,11 +110,11 @@ code {
   background: var(--code-bg);
 } */
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
+} */
 
 /* @tailwind base;
 @tailwind components;
