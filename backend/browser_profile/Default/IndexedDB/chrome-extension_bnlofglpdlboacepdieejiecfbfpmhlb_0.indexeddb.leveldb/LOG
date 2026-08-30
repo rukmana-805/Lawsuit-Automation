@@ -1,0 +1,14 @@
+2026/08/30-18:41:44.527 48b0 Reusing MANIFEST C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/MANIFEST-000001
+2026/08/30-18:41:44.529 48b0 Recovering log #118
+2026/08/30-18:41:44.530 48b0 Reusing old log C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/000118.log 
+2026/08/30-18:41:44.531 48b0 Delete type=2 #116
+2026/08/30-18:41:44.572 3734 Level-0 table #123: started
+2026/08/30-18:41:44.578 3734 Level-0 table #123: 1224 bytes OK
+2026/08/30-18:41:44.580 3734 Delete type=0 #118
+2026/08/30-18:41:44.582 6594 Manual compaction at level-0 from '\x00"\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00#\x00\x00\x00' @ 0 : 0; will stop at '\x00"\x00\x00\x05' @ 1369 : 1
+2026/08/30-18:41:44.583 6594 Compacting 1@0 + 1@1 files
+2026/08/30-18:41:44.588 6594 Generated table #124@0: 172 keys, 4153 bytes
+2026/08/30-18:41:44.588 6594 Compacted 1@0 + 1@1 files => 4153 bytes
+2026/08/30-18:41:44.590 6594 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/08/30-18:41:44.591 6594 Delete type=2 #123
+2026/08/30-18:41:44.592 6594 Manual compaction at level-0 from '\x00"\x00\x00\x05' @ 1369 : 1 .. '\x00#\x00\x00\x00' @ 0 : 0; will stop at (end)

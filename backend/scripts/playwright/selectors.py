@@ -7,3 +7,6 @@ REPORT_SUBMIT_BUTTON = "#MasterContentPlaceHolder_Button2"
 REPORT_EXPORT_BUTTON = "#rptViewer_ctl09_ctl04_ctl00_ButtonLink"
 
 REPORT_EXPORT_CSV = "a[title='CSV (comma delimited)']"
+
+# Turbo VPN
+VPN_CONNECT_BUTTON = 'div.cursor-pointer:has(img[src*="radish"])'
