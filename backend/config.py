@@ -6,6 +6,11 @@ BASE_DIR = Path(__file__).resolve().parent
 # Website
 BASE_URL = "https://www2.miamidadeclerk.gov/ocs/"
 
+CSV_PATH = r"C:\Users\tapes\OneDrive\Desktop\CSV Automation\Lawsuit-Automation\backend\input\cases.csv"
+
+OUTPUT_PATH = r"C:\Users\tapes\OneDrive\Desktop\CSV Automation\Lawsuit-Automation\backend\downloads"
+
+
 # Browser
 HEADLESS = False
 

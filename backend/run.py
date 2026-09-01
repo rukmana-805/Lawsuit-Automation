@@ -1,27 +1,39 @@
-from config import BASE_URL
-from pdf_downloader.browser import Browser
-from pdf_downloader.parser import CaseParser
-from pdf_downloader.search import CaseSearch
+from config import CSV_PATH, OUTPUT_PATH
+from app.services.case_service import process_cases
 
-browser = Browser()
 
-try:
-    page = browser.start()
+if __name__ == "__main__":
 
-    page.goto(BASE_URL)
+    print("=" * 60)
+    print("Starting Lawsuit Automation - Test Run")
+    print("=" * 60)
 
-    search = CaseSearch(page)
+    print(f"CSV Path    : {CSV_PATH}")
+    print(f"Output Path : {OUTPUT_PATH}")
 
-    search.open_local_case_search()
+    try:
+        result = process_cases(
+            csv_path=CSV_PATH,
+            output_path=OUTPUT_PATH
+        )
 
-    # Temporary hardcoded case number
-    case_number = "2026-058549-SP-25"
+        print("\n" + "=" * 60)
+        print("PROCESS COMPLETED")
+        print("=" * 60)
 
-    case = CaseParser.parse(case_number)
+        print(f"Total cases     : {result['total']}")
+        print(f"Processed cases : {result['processed']}")
+        print(f"Failed cases    : {result['failed']}")
 
-    search.search_case(case)
+        if result["failed_cases"]:
+            print("\nFailed cases:")
 
-    input("Press Enter to close...")
+            for failed in result["failed_cases"]:
+                print(
+                    f"- {failed['case_number']}: "
+                    f"{failed['error']}"
+                )
 
-finally:
-    browser.close()
+    except Exception as e:
+        print("\nAutomation failed:")
+        print(e)
