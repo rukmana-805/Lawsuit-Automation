@@ -145,32 +145,6 @@ class CaseSearch:
 
         return file_path
 
-# def go_to_home_and_local_case(self):
-#     print("STEP 5: Returning to OCS Home...")
-
-#     # Click OCS Home from breadcrumb
-#     self.page.locator("#breadcrumb").get_by_text(
-#         "OCS Home",
-#         exact=True
-#     ).click()
-
-#     self.page.wait_for_load_state("networkidle")
-
-#     print("OCS Home opened")
-
-#     # Open Local Case again
-#     self.page.get_by_text(
-#         LOCAL_CASE,
-#         exact=True
-#     ).click()
-
-#     self.page.locator(CASE_YEAR).wait_for(
-#         state="visible",
-#         timeout=30000
-#     )
-
-#     print("Local Case Search opened")
-
     def go_to_home_and_local_case(self):
         print("STEP 5: Going back to OCS Home...")
 
@@ -182,7 +156,7 @@ class CaseSearch:
 
         home.wait_for(
             state="visible",
-            timeout=30000
+            timeout=300000
         )
 
         print("OCS Home link found")
@@ -203,7 +177,7 @@ class CaseSearch:
 
         local_case.wait_for(
             state="visible",
-            timeout=30000
+            timeout=300000
         )
 
         local_case.click()

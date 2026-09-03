@@ -1,4 +1,5 @@
 venv/
+downloads/
 .venv/
 
 myenv/

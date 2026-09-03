@@ -5,7 +5,10 @@ from config import BASE_URL
 from pdf_downloader.browser import Browser
 from pdf_downloader.parser import CaseParser
 from pdf_downloader.search import CaseSearch
-from pdf_downloader.csv_reader import read_case_numbers
+from pdf_downloader.csv_reader import (
+    read_case_numbers,
+    update_download_remark
+)
 
 
 def process_cases(csv_path: str, output_path: str):
@@ -69,6 +72,14 @@ def process_cases(csv_path: str, output_path: str):
                     case_number,
                     output_path
                 )
+
+                update_download_remark(
+                    csv_path,
+                    case_number,
+                    "Downloaded"
+                )
+
+                print(f"Download remark updated: {case_number}")
 
                 # PDF saving will go here
                 #
