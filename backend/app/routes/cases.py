@@ -17,18 +17,21 @@ class CaseDownloadRequest(BaseModel):
 
 @router.post("/download")
 def download_cases(request: CaseDownloadRequest):
+
     try:
+
         result = process_cases(
             csv_path=request.csv_path,
             output_path=request.output_path
         )
 
         return {
-            "message": "Case processing completed",
+            "status": "completed",
             "result": result
         }
 
     except Exception as e:
+
         raise HTTPException(
             status_code=500,
             detail=str(e)

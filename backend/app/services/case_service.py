@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from config import BASE_URL
+
 from pdf_downloader.browser import Browser
 from pdf_downloader.parser import CaseParser
 from pdf_downloader.search import CaseSearch
@@ -35,47 +36,53 @@ def process_cases(csv_path: str, output_path: str):
     failed_cases = []
 
     try:
-        # Start browser
+
+        # Browser opens HERE
         page = browser.start()
 
-        # Open website
+        # Website opens HERE
         page.goto(BASE_URL)
 
-        # Create search object
         search = CaseSearch(page)
 
-        # Open Local Case Search
         search.open_local_case_search()
 
-        # Process each case
         for case_number in case_numbers:
 
             pdf_page = None
 
             try:
+
                 print("=" * 60)
                 print(f"Processing: {case_number}")
                 print("=" * 60)
 
-                # Parse case number
                 case = CaseParser.parse(case_number)
 
-                # Search case
                 search.search_case(case)
 
-                # Open dockets
                 search.open_dockets()
 
-                # Open Statement of Claim
                 pdf_page = search.open_statement_of_claim()
+                search.download_pdf(
+                    pdf_page,
+                    case_number,
+                    output_path
+                )
 
-                # PDF saving will be added here
+                # PDF saving will go here
                 #
                 # search.save_pdf(
                 #     pdf_page,
                 #     case_number,
                 #     output_path
                 # )
+
+                pdf_page.close()
+                print(f"PDF page closed: {case_number}")
+                
+                # Go back to Home → Local Case
+                search.go_to_home_and_local_case()
 
                 processed_cases.append(case_number)
 
@@ -84,7 +91,7 @@ def process_cases(csv_path: str, output_path: str):
             except Exception as e:
 
                 print(
-                    f"Failed: {case_number} | Error: {e}"
+                    f"Failed: {case_number} | {e}"
                 )
 
                 failed_cases.append({
@@ -94,12 +101,13 @@ def process_cases(csv_path: str, output_path: str):
 
             finally:
 
-                # Close the PDF tab only.
-                # The Local Case Search page remains open.
                 if pdf_page is not None:
+
                     try:
+
                         if not pdf_page.is_closed():
                             pdf_page.close()
+
                     except Exception:
                         pass
 
@@ -112,4 +120,5 @@ def process_cases(csv_path: str, output_path: str):
         }
 
     finally:
+
         browser.close()

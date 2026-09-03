@@ -2,8 +2,15 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.report import router as report_router
+from app.routes.cases import router as cases_router
 
-app = FastAPI()
+from app.startup.automation import lifespan
+
+app = FastAPI(
+    title="Lawsuit Automation API",
+    version="1.0.0",
+    lifespan=lifespan,
+    )
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +24,7 @@ app.add_middleware(
 )
 
 app.include_router(report_router)
+app.include_router(cases_router)
 
 @app.get("/")
 def root():
@@ -24,52 +32,9 @@ def root():
         "message": "Claim Automation API Running"
     }
 
-from contextlib import asynccontextmanager
-
-from fastapi import FastAPI
-
-from app.routes.cases import router as cases_router
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """
-    Application startup and shutdown lifecycle.
-    """
-
-    print("Starting Lawsuit Automation API...")
-
-    # Startup logic can be added here later.
-    # Example:
-    # - initialize database
-    # - initialize shared resources
-    # - validate configuration
-
-    yield
-
-    print("Shutting down Lawsuit Automation API...")
-
-    # Cleanup logic can be added here later.
-    # Example:
-    # - close database connections
-    # - cleanup shared resources
-
-
-app = FastAPI(
-    title="Lawsuit Automation API",
-    description="API for automated case searching and PDF downloading.",
-    version="1.0.0",
-    lifespan=lifespan,
-)
-
-
-# Register API routes
-app.include_router(cases_router)
-
-
-@app.get("/", tags=["Health"])
-def health_check():
+@app.get("/")
+def root():
     return {
         "status": "ok",
-        "message": "Lawsuit Automation API is running",
+        "message": "Lawsuit Automation API Running"
     }
