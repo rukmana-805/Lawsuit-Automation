@@ -15,7 +15,7 @@ OUTPUT_PATH = r"C:\Users\tapes\OneDrive\Desktop\CSV Automation\Lawsuit-Automatio
 HEADLESS = False
 
 # Timeout (milliseconds)
-TIMEOUT = 30000
+TIMEOUT = 300000
 
 # Directories
 DOWNLOAD_DIR = BASE_DIR / "downloads" / "pdf"

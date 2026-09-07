@@ -66,18 +66,46 @@ def process_cases(csv_path: str, output_path: str):
 
                 search.open_dockets()
 
+                # pdf_page = search.open_statement_of_claim()
+                # search.download_pdf(
+                #     pdf_page,
+                #     case_number,
+                #     output_path
+                # )
+
+                # update_download_remark(
+                #     csv_path,
+                #     case_number,
+                #     "Downloaded"
+                # )
+
                 pdf_page = search.open_statement_of_claim()
-                search.download_pdf(
-                    pdf_page,
-                    case_number,
-                    output_path
-                )
+
+                if pdf_page is None:
+                    update_download_remark(
+                        csv_path,
+                        case_number,
+                        "Statement of Claim not found"
+                    )
+
+                    print(f"Statement of Claim not found: {case_number}")
+
+                else:
+                    search.download_pdf(
+                        pdf_page,
+                        case_number,
+                        output_path
+                    )
 
                 update_download_remark(
                     csv_path,
                     case_number,
                     "Downloaded"
                 )
+
+                print(f"Downloaded successfully: {case_number}")
+
+                pdf_page.close()
 
                 print(f"Download remark updated: {case_number}")
 

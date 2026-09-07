@@ -1,23 +1,5 @@
 import csv
-
-
-def read_case_numbers(csv_path):
-    case_numbers = []
-
-    with open(csv_path, "r", encoding="utf-8-sig", newline="") as file:
-        reader = csv.DictReader(file)
-
-        for row in reader:
-            case_number = row["case_number"].strip()
-
-            if case_number:
-                case_numbers.append(case_number)
-
-    return case_numbers
-
-import csv
 from pathlib import Path
-
 
 def read_case_numbers(csv_path):
     case_numbers = []
@@ -31,14 +13,42 @@ def read_case_numbers(csv_path):
 
         reader = csv.DictReader(file)
 
-        for row in reader:
-            case_number = row["case_number"].strip()
+        print("CSV columns:", reader.fieldnames)
 
-            if case_number:
-                case_numbers.append(case_number)
+        for row in reader:
+
+            print("ROW:", row)
+
+            case_number = row.get(
+                "case_number",
+                ""
+            ).strip()
+
+            remark = row.get(
+                "download remarks",
+                ""
+            ).strip()
+
+            print(
+                f"CASE: {case_number} | "
+                f"REMARK: '{remark}'"
+            )
+
+            if not case_number:
+                continue
+
+            if remark:
+                print(
+                    f"SKIPPING: {case_number} "
+                    f"| {remark}"
+                )
+                continue
+
+            case_numbers.append(case_number)
+
+    print("Cases to process:", case_numbers)
 
     return case_numbers
-
 
 def update_download_remark(
     csv_path,
