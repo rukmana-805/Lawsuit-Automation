@@ -5,7 +5,9 @@ import logging
 
 from scripts.playwright.browser import get_browser
 from scripts.playwright.selectors import *
+from scripts.processing.date_folder import get_report_folder
 
+from config import REPORTS_DIR
 
 
 # FLDFS REPORT URL
@@ -69,10 +71,11 @@ VPN_CONNECTED_SELECTOR = (
 
 # DOWNLOAD LOCATION
 
-DOWNLOAD_ROOT = Path(
-    r"C:\Users\Rukmana\Documents\Lawsuit Reports"
-)
+# DOWNLOAD_ROOT = Path(
+#     r"C:\Users\Rukmana\Documents\Lawsuit Reports"
+# )
 
+DOWNLOAD_ROOT = REPORTS_DIR
 
 
 # LOGGING
@@ -95,38 +98,34 @@ logger = logging.getLogger(__name__)
 
 
 
-# GET YEAR / MONTH FOLDER
+# GET REPORT FOLDER
+# ============================================================
 
 def get_download_directory(
     from_date: str
 ) -> Path:
+    """
+    Get the correct report folder.
+
+    1st - 15th  -> YEAR / MONTH / 1ST
+    16th - month end -> YEAR / MONTH / 2ND
+
+    Example:
+        2026-08-01 -> 2026/AUGUST/1ST
+        2026-08-15 -> 2026/AUGUST/1ST
+        2026-08-16 -> 2026/AUGUST/2ND
+        2026-08-31 -> 2026/AUGUST/2ND
+    """
 
     report_date = datetime.strptime(
         from_date,
         "%Y-%m-%d"
-    )
+    ).date()
 
-    year = report_date.year
-
-    month = report_date.strftime(
-        "%B"
-    )
-
-    download_directory = (
-        DOWNLOAD_ROOT
-        / str(year)
-        / month
-    )
-
-    download_directory.mkdir(
-        parents=True,
-        exist_ok=True
-    )
-
-    return download_directory
+    return get_report_folder(report_date)
 
 
-
+# ============================================================
 # FORMAT DATE
 
 def format_date(

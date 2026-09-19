@@ -29,6 +29,7 @@ logs/
 # ===============================
 backend/venv/
 backend/.venv/
+backend/browser_profile/
 
 __pycache__/
 *.py[cod]

@@ -5,9 +5,13 @@ from pathlib import Path
 import time
 
 from scripts.playwright.detail_report import download_report
+from scripts.processing.lsop_processor import process_lsop_csv
+from scripts.processing.pipeline import run_cleaning_pipeline
 
 
+# ============================================================
 # LOGGING
+# ============================================================
 
 LOG_DIR = (
     Path(__file__).resolve().parents[2]
@@ -31,8 +35,9 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-
+# ============================================================
 # DOWNLOAD WITH RETRY
+# ============================================================
 
 def download_with_retry(
     from_date: str,
@@ -60,7 +65,6 @@ def download_with_retry(
     Fresh browser + VPN + website
         ↓
     ...
-
     Maximum attempts = 3
     """
 
@@ -70,12 +74,19 @@ def download_with_retry(
     ):
 
         print()
-        print("================================")
+
+        print(
+            "================================"
+        )
+
         print(
             f"DOWNLOAD ATTEMPT "
             f"{attempt}/{max_attempts}"
         )
-        print("================================")
+
+        print(
+            "================================"
+        )
 
         logger.info(
             f"Download attempt "
@@ -84,26 +95,33 @@ def download_with_retry(
 
         try:
 
-            
-            # Complete fresh download attempt
-            
+            # =================================================
+            # COMPLETE FRESH DOWNLOAD ATTEMPT
+            # =================================================
 
             file_path = download_report(
                 from_date,
                 to_date
             )
 
-            
-            # SUCCESS
-            
+            # =================================================
+            # DOWNLOAD SUCCESS
+            # =================================================
 
             print()
-            print("================================")
+
+            print(
+                "================================"
+            )
+
             print(
                 f"DOWNLOAD SUCCESSFUL "
                 f"ON ATTEMPT {attempt}"
             )
-            print("================================")
+
+            print(
+                "================================"
+            )
 
             print(
                 f"File: {file_path}"
@@ -118,17 +136,24 @@ def download_with_retry(
 
         except Exception as e:
 
-            
+            # =================================================
             # ATTEMPT FAILED
-            
+            # =================================================
 
             print()
-            print("================================")
+
+            print(
+                "================================"
+            )
+
             print(
                 f"DOWNLOAD ATTEMPT "
                 f"{attempt}/{max_attempts} FAILED"
             )
-            print("================================")
+
+            print(
+                "================================"
+            )
 
             print(
                 f"Error: {e}"
@@ -139,13 +164,14 @@ def download_with_retry(
                 f"{attempt}/{max_attempts} failed"
             )
 
-            
+            # =================================================
             # RETRY
-            
+            # =================================================
 
             if attempt < max_attempts:
 
                 print()
+
                 print(
                     "Browser will be closed."
                 )
@@ -164,74 +190,339 @@ def download_with_retry(
                     retry_delay
                 )
 
-            
+            # =================================================
             # FINAL ATTEMPT FAILED
-            
+            # =================================================
 
             else:
 
                 print()
-                print("================================")
-                print("ALL DOWNLOAD ATTEMPTS FAILED")
-                print("================================")
+
+                print(
+                    "================================"
+                )
+
+                print(
+                    "ALL DOWNLOAD ATTEMPTS FAILED"
+                )
+
+                print(
+                    "================================"
+                )
 
                 logger.error(
                     "All download attempts failed"
                 )
 
-                # Re-raise the current exception
+                # Re-raise current exception
                 raise
 
 
+# ============================================================
+# PROCESS DOWNLOADED CSV
+# ============================================================
 
+def process_downloaded_csv(
+    file_path: str,
+    from_date: str,
+    to_date: str
+):
+    """
+    Process the CSV downloaded by download_report().
+
+    Steps:
+
+        Downloaded CSV
+              ↓
+        Rename CSV
+              ↓
+        Read lawsuit index
+              ↓
+        Map defendant
+              ↓
+        Map county
+              ↓
+        Create 5 Excel files
+
+    The processing uses the same folder
+    where the downloaded CSV exists.
+
+    Returns:
+        Dictionary containing 5 processed Excel files.
+    """
+
+    print()
+
+    print(
+        "================================"
+    )
+
+    print(
+        "STARTING LSOP CSV PROCESSING"
+    )
+
+    print(
+        "================================"
+    )
+
+    print(
+        f"CSV File : {file_path}"
+    )
+
+    print(
+        f"From Date: {from_date}"
+    )
+
+    print(
+        f"To Date  : {to_date}"
+    )
+
+    logger.info(
+        "Starting LSOP CSV processing"
+    )
+
+    logger.info(
+        f"CSV file: {file_path}"
+    )
+
+    logger.info(
+        f"Processing date range: "
+        f"{from_date} -> {to_date}"
+    )
+
+    # =========================================================
+    # PROCESS CSV
+    # =========================================================
+
+    output_files = process_lsop_csv(
+        file_path,
+        from_date,
+        to_date
+    )
+
+    # =========================================================
+    # PROCESSING SUCCESS
+    # =========================================================
+
+    print()
+
+    print(
+        "================================"
+    )
+
+    print(
+        "LSOP PROCESSING SUCCESSFUL"
+    )
+
+    print(
+        "================================"
+    )
+
+    for county, output_file in output_files.items():
+
+        print(
+            f"{county}: {output_file}"
+        )
+
+    logger.info(
+        "LSOP processing completed successfully"
+    )
+
+    logger.info(
+        f"Output files: {output_files}"
+    )
+
+    return output_files
+
+
+# ============================================================
+# CLEAN PROCESSED FILES
+# ============================================================
+
+def clean_processed_files(
+    processed_files
+):
+    """
+    Run the county-specific cleaning pipeline.
+
+    Input:
+        5 Excel files generated by LSOP processor.
+
+    Cleaning:
+        Broward
+        Dade
+        Hillsborough
+        Orange
+        ROS
+
+    Returns:
+        Dictionary containing cleaned Excel files.
+    """
+
+    print()
+
+    print(
+        "================================"
+    )
+
+    print(
+        "STARTING COUNTY CLEANING"
+    )
+
+    print(
+        "================================"
+    )
+
+    logger.info(
+        "Starting county cleaning pipeline"
+    )
+
+    # =========================================================
+    # RUN CLEANING PIPELINE
+    # =========================================================
+
+    cleaned_files = run_cleaning_pipeline(
+        processed_files
+    )
+
+    # =========================================================
+    # CLEANING SUCCESS
+    # =========================================================
+
+    print()
+
+    print(
+        "================================"
+    )
+
+    print(
+        "COUNTY CLEANING SUCCESSFUL"
+    )
+
+    print(
+        "================================"
+    )
+
+    for county, cleaned_file in cleaned_files.items():
+
+        print(
+            f"{county}: {cleaned_file}"
+        )
+
+    logger.info(
+        "County cleaning completed successfully"
+    )
+
+    logger.info(
+        f"Cleaned files: {cleaned_files}"
+    )
+
+    return cleaned_files
+
+
+# ============================================================
+# COMPLETE DOWNLOADED FILE PROCESS
+# ============================================================
+
+def process_and_clean_downloaded_csv(
+    file_path: str,
+    from_date: str,
+    to_date: str
+):
+    """
+    Complete processing pipeline for downloaded CSV.
+
+    Downloaded CSV
+          ↓
+    LSOP Processing
+          ↓
+    5 County Excel Files
+          ↓
+    County Cleaning
+          ↓
+    5 Cleaned Excel Files
+    """
+
+    # =========================================================
+    # STEP 1 — LSOP PROCESSING
+    # =========================================================
+
+    processed_files = process_downloaded_csv(
+        file_path,
+        from_date,
+        to_date
+    )
+
+    # =========================================================
+    # STEP 2 — COUNTY CLEANING
+    # =========================================================
+
+    cleaned_files = clean_processed_files(
+        processed_files
+    )
+
+    return cleaned_files
+
+
+# ============================================================
 # SCHEDULED REPORT
+# ============================================================
 
 def run_scheduled_report():
 
     try:
 
-        
+        # =====================================================
         # TODAY
+        # =====================================================
+
         # FINAL VERSION:
         #
         # today = date.today()
         #
-    
 
         # TESTING ONLY
-        today = date(2026, 8, 15)
+
+        today = date(2026, 9, 15)
 
         # When testing is finished, change to:
         #
         # today = date.today()
 
-
         year = today.year
+
         month = today.month
+
         day = today.day
 
-
-        # Get last day of current month
-        #
-        # Example:
-        # August  -> 31
-        # September -> 30
-        # February -> 28/29
+        # =====================================================
+        # GET LAST DAY OF CURRENT MONTH
+        # =====================================================
 
         last_day = calendar.monthrange(
             year,
             month
         )[1]
 
-
-        
+        # =====================================================
         # SCHEDULER START
-        
+        # =====================================================
 
-        print("================================")
-        print("Scheduler Started")
-        print(f"Today: {today}")
-        print("================================")
+        print(
+            "================================"
+        )
+
+        print(
+            "Scheduler Started"
+        )
+
+        print(
+            f"Today: {today}"
+        )
+
+        print(
+            "================================"
+        )
 
         logger.info(
             "================================"
@@ -249,10 +540,9 @@ def run_scheduled_report():
             "================================"
         )
 
-
-        
+        # =====================================================
         # FIRST HALF: 1 -> 15
-        
+        # =====================================================
 
         if day == 15:
 
@@ -268,7 +558,6 @@ def run_scheduled_report():
                 15
             )
 
-
             print(
                 f"Running first-half report: "
                 f"{from_date} -> {to_date}"
@@ -279,18 +568,17 @@ def run_scheduled_report():
                 f"{from_date} -> {to_date}"
             )
 
-
-            
+            # =================================================
             # DOWNLOAD WITH RETRY
-            
+            # =================================================
 
             file_path = download_with_retry(
                 from_date.isoformat(),
                 to_date.isoformat()
             )
 
-
             print()
+
             print(
                 "First-half report downloaded:"
             )
@@ -299,16 +587,34 @@ def run_scheduled_report():
                 file_path
             )
 
-
             logger.info(
                 f"First-half report downloaded successfully: "
                 f"{file_path}"
             )
 
+            # =================================================
+            # PROCESS + CLEAN
+            # =================================================
 
-        
+            cleaned_files = process_and_clean_downloaded_csv(
+                file_path,
+                from_date.strftime("%m/%d/%Y"),
+                to_date.strftime("%m/%d/%Y")
+            )
+
+            print()
+
+            print(
+                "First-half processing and cleaning completed."
+            )
+
+            logger.info(
+                f"First-half cleaned files: {cleaned_files}"
+            )
+
+        # =====================================================
         # SECOND HALF: 16 -> LAST DAY
-        
+        # =====================================================
 
         elif day == last_day:
 
@@ -324,7 +630,6 @@ def run_scheduled_report():
                 last_day
             )
 
-
             print(
                 f"Running second-half report: "
                 f"{from_date} -> {to_date}"
@@ -335,18 +640,17 @@ def run_scheduled_report():
                 f"{from_date} -> {to_date}"
             )
 
-
-            
+            # =================================================
             # DOWNLOAD WITH RETRY
-            
+            # =================================================
 
             file_path = download_with_retry(
                 from_date.isoformat(),
                 to_date.isoformat()
             )
 
-
             print()
+
             print(
                 "Second-half report downloaded:"
             )
@@ -355,20 +659,39 @@ def run_scheduled_report():
                 file_path
             )
 
-
             logger.info(
                 f"Second-half report downloaded successfully: "
                 f"{file_path}"
             )
 
+            # =================================================
+            # PROCESS + CLEAN
+            # =================================================
 
-        
+            cleaned_files = process_and_clean_downloaded_csv(
+                file_path,
+                from_date.strftime("%m/%d/%Y"),
+                to_date.strftime("%m/%d/%Y")
+            )
+
+            print()
+
+            print(
+                "Second-half processing and cleaning completed."
+            )
+
+            logger.info(
+                f"Second-half cleaned files: {cleaned_files}"
+            )
+
+        # =====================================================
         # NOT A REPORT DAY
-        
+        # =====================================================
 
         else:
 
             print()
+
             print(
                 "Today is not a scheduled report day."
             )
@@ -377,29 +700,33 @@ def run_scheduled_report():
                 "Today is not a scheduled report day."
             )
 
-
-    
+    # =========================================================
     # SCHEDULER ERROR HANDLING
+    # =========================================================
 
     except Exception as e:
 
         print()
-        print("================================")
-        print("SCHEDULER FAILED")
-        print("================================")
+
+        print(
+            "================================"
+        )
+
+        print(
+            "SCHEDULER FAILED"
+        )
+
+        print(
+            "================================"
+        )
 
         print(
             f"Error: {e}"
         )
 
-
-        # logger.exception automatically stores
-        # the complete traceback.
-
         logger.exception(
             "Scheduled report failed"
         )
-
 
         # Important for Task Scheduler:
         # non-zero exit code when something fails.
@@ -407,7 +734,9 @@ def run_scheduled_report():
         raise
 
 
+# ============================================================
 # MAIN
+# ============================================================
 
 if __name__ == "__main__":
 

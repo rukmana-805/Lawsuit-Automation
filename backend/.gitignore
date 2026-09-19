@@ -18,3 +18,5 @@ temp/
 
 playwright-report/
 test-results/
+
+browser_profile/

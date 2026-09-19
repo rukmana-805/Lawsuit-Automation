@@ -1,14 +1,14 @@
-2026/08/30-18:07:02.192 2c9c Reusing MANIFEST C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/MANIFEST-000001
-2026/08/30-18:07:02.194 2c9c Recovering log #114
-2026/08/30-18:07:02.196 2c9c Reusing old log C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/000114.log 
-2026/08/30-18:07:02.197 2c9c Delete type=2 #112
-2026/08/30-18:07:02.328 2c9c Level-0 table #119: started
-2026/08/30-18:07:02.332 2c9c Level-0 table #119: 1215 bytes OK
-2026/08/30-18:07:02.335 2c9c Delete type=0 #114
-2026/08/30-18:07:02.336 5a4c Manual compaction at level-0 from '\x00!\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00"\x00\x00\x00' @ 0 : 0; will stop at '\x00!\x00\x00\x05' @ 1338 : 1
-2026/08/30-18:07:02.337 5a4c Compacting 1@0 + 1@1 files
-2026/08/30-18:07:02.340 5a4c Generated table #120@0: 172 keys, 4155 bytes
-2026/08/30-18:07:02.340 5a4c Compacted 1@0 + 1@1 files => 4155 bytes
-2026/08/30-18:07:02.343 5a4c compacted to: files[ 0 1 1 0 0 0 0 ]
-2026/08/30-18:07:02.344 5a4c Delete type=2 #119
-2026/08/30-18:07:02.345 5a4c Manual compaction at level-0 from '\x00!\x00\x00\x05' @ 1338 : 1 .. '\x00"\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/09/19-22:54:24.847 57f0 Reusing MANIFEST C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/MANIFEST-000001
+2026/09/19-22:54:24.848 57f0 Recovering log #162
+2026/09/19-22:54:24.849 57f0 Reusing old log C:\Users\Rukmana\Desktop\Lawsuit-Automation\backend\browser_profile\Default\IndexedDB\chrome-extension_bnlofglpdlboacepdieejiecfbfpmhlb_0.indexeddb.leveldb/000162.log 
+2026/09/19-22:54:24.849 57f0 Delete type=2 #160
+2026/09/19-22:54:24.893 5778 Level-0 table #167: started
+2026/09/19-22:54:24.896 5778 Level-0 table #167: 1220 bytes OK
+2026/09/19-22:54:24.899 5778 Delete type=0 #162
+2026/09/19-22:54:24.900 5778 Manual compaction at level-0 from '\x00-\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00.\x00\x00\x00' @ 0 : 0; will stop at '\x00-\x00\x00\x05' @ 1986 : 1
+2026/09/19-22:54:24.900 5778 Compacting 1@0 + 1@1 files
+2026/09/19-22:54:24.903 5778 Generated table #168@0: 180 keys, 4243 bytes
+2026/09/19-22:54:24.903 5778 Compacted 1@0 + 1@1 files => 4243 bytes
+2026/09/19-22:54:24.904 5778 compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/09/19-22:54:24.905 5778 Delete type=2 #167
+2026/09/19-22:54:24.906 57f0 Manual compaction at level-0 from '\x00-\x00\x00\x05' @ 1986 : 1 .. '\x00.\x00\x00\x00' @ 0 : 0; will stop at (end)
